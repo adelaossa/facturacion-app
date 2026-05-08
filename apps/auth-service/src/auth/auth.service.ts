@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Usuario } from './entities/usuario.entity';
+import { IAuthLogin, IAuthRegister } from '@facturacion/common';
 
 @Injectable()
 export class AuthService {
@@ -13,13 +14,13 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(email: string, password: string) {
-    const usuario = await this.usuarioRepository.findOne({ where: { email } });
+  async login(data: IAuthLogin) {
+    const usuario = await this.usuarioRepository.findOne({ where: { email: data.email } });
     if (!usuario) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    const isPasswordValid = await bcrypt.compare(password, usuario.password);
+    const isPasswordValid = await bcrypt.compare(data.password, usuario.password);
     if (!isPasswordValid) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
@@ -35,16 +36,16 @@ export class AuthService {
     };
   }
 
-  async register(nombre: string, email: string, password: string) {
-    const existingUser = await this.usuarioRepository.findOne({ where: { email } });
+  async register(data: IAuthRegister) {
+    const existingUser = await this.usuarioRepository.findOne({ where: { email: data.email } });
     if (existingUser) {
       throw new BadRequestException('El email ya está registrado');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(data.password, 10);
     const usuario = this.usuarioRepository.create({
-      nombre,
-      email,
+      nombre: data.nombre,
+      email: data.email,
       password: hashedPassword,
     });
 

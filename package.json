@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "libs/*"
+    "libs/*",
+    "apps/*"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
@@ -18,7 +18,8 @@
     "start:clientes": "npm run start -w @facturacion/clientes-service",
     "start:productos": "npm run start -w @facturacion/productos-service",
     "start:facturas": "npm run start -w @facturacion/facturas-service",
-    "start:all": "npm run start:gateway & npm run start:auth & npm run start:clientes & npm run start:productos & npm run start:facturas"
+    "start:all": "npm run start:gateway & npm run start:auth & npm run start:clientes & npm run start:productos & npm run start:facturas",
+    "stop:all": "pkill -f 'node apps'"
   },
   "devDependencies": {
     "typescript": "^5.3.3"

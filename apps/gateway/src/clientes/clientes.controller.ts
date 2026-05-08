@@ -1,31 +1,44 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Inject } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Inject, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { ClientProxy } from '@nestjs/microservices';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Public } from '../auth/guards/jwt-auth.guard';
+import { CreateClienteDto } from './dto/create-cliente.dto';
+import { UpdateClienteDto } from './dto/update-cliente.dto';
 
+@ApiTags('Clientes')
 @Controller('clientes')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class ClientesController {
   constructor(@Inject('CLIENTES_SERVICE') private clientesClient: ClientProxy) {}
 
   @Get()
+  @ApiOperation({ summary: 'Listar todos los clientes' })
   findAll() {
     return this.clientesClient.send({ cmd: 'find-all-clientes' }, {});
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Obtener un cliente por ID' })
   findOne(@Param('id') id: string) {
     return this.clientesClient.send({ cmd: 'find-one-cliente' }, { id });
   }
 
   @Post()
-  create(@Body() data: any) {
-    return this.clientesClient.send({ cmd: 'create-cliente' }, data);
+  @ApiOperation({ summary: 'Crear un nuevo cliente' })
+  create(@Body() dto: CreateClienteDto) {
+    return this.clientesClient.send({ cmd: 'create-cliente' }, dto);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() data: any) {
-    return this.clientesClient.send({ cmd: 'update-cliente' }, { id, data });
+  @ApiOperation({ summary: 'Actualizar un cliente' })
+  update(@Param('id') id: string, @Body() dto: UpdateClienteDto) {
+    return this.clientesClient.send({ cmd: 'update-cliente' }, { id, data: dto });
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Eliminar un cliente' })
   remove(@Param('id') id: string) {
     return this.clientesClient.send({ cmd: 'delete-cliente' }, { id });
   }

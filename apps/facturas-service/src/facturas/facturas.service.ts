@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ClientProxy } from '@nestjs/microservices';
 import { Factura } from './entities/factura.entity';
+import { ICreateFactura, IUpdateFactura } from '@facturacion/common';
 
 @Injectable()
 export class FacturasService {
@@ -27,7 +28,7 @@ export class FacturasService {
     return factura;
   }
 
-  async create(data: any) {
+  async create(data: ICreateFactura): Promise<Factura> {
     try {
       const cliente = await this.clientesClient.send({ cmd: 'find-one-cliente' }, { id: data.clienteId }).toPromise();
       if (!cliente) {
@@ -70,7 +71,7 @@ export class FacturasService {
     return this.facturaRepository.save(factura);
   }
 
-  async update(id: string, data: any) {
+  async update(id: string, data: IUpdateFactura): Promise<Factura> {
     const factura = await this.findOne(id);
     Object.assign(factura, data);
     return this.facturaRepository.save(factura);

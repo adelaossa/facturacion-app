@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ClientesService } from './clientes.service';
+import { ICreateCliente, IUpdateCliente } from '@facturacion/common';
 
 @Controller()
 export class ClientesController {
@@ -17,12 +18,12 @@ export class ClientesController {
   }
 
   @MessagePattern({ cmd: 'create-cliente' })
-  create(@Payload() data: any) {
+  create(@Payload() data: ICreateCliente) {
     return this.clientesService.create(data);
   }
 
   @MessagePattern({ cmd: 'update-cliente' })
-  update(@Payload() data: { id: string; data: any }) {
+  update(@Payload() data: { id: string; data: IUpdateCliente }) {
     return this.clientesService.update(data.id, data.data);
   }
 

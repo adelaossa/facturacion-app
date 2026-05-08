@@ -16,7 +16,8 @@
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",
     "class-validator": "^0.14.1",
-    "class-transformer": "^0.5.1"
+    "class-transformer": "^0.5.1",
+    "@facturacion/common": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
