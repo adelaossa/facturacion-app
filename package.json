@@ -1,0 +1,26 @@
+{
+  "name": "facturacion-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "build:gateway": "npm run build -w @facturacion/gateway",
+    "build:auth": "npm run build -w @facturacion/auth-service",
+    "build:clientes": "npm run build -w @facturacion/clientes-service",
+    "build:productos": "npm run build -w @facturacion/productos-service",
+    "build:facturas": "npm run build -w @facturacion/facturas-service",
+    "start:gateway": "npm run start -w @facturacion/gateway",
+    "start:auth": "npm run start -w @facturacion/auth-service",
+    "start:clientes": "npm run start -w @facturacion/clientes-service",
+    "start:productos": "npm run start -w @facturacion/productos-service",
+    "start:facturas": "npm run start -w @facturacion/facturas-service",
+    "start:all": "npm run start:gateway & npm run start:auth & npm run start:clientes & npm run start:productos & npm run start:facturas"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
