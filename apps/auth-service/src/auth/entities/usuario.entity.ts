@@ -14,6 +14,9 @@ export class Usuario {
   @Column()
   password: string;
 
+  @Column({ default: 'user' })
+  rol: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

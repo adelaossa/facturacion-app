@@ -25,13 +25,14 @@ export class AuthService {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    const payload = { sub: usuario.id, email: usuario.email };
+    const payload = { sub: usuario.id, email: usuario.email, rol: usuario.rol };
     return {
       accessToken: this.jwtService.sign(payload),
       user: {
         id: usuario.id,
         email: usuario.email,
         nombre: usuario.nombre,
+        rol: usuario.rol,
       },
     };
   }
@@ -51,13 +52,14 @@ export class AuthService {
 
     await this.usuarioRepository.save(usuario);
 
-    const payload = { sub: usuario.id, email: usuario.email };
+    const payload = { sub: usuario.id, email: usuario.email, rol: usuario.rol };
     return {
       accessToken: this.jwtService.sign(payload),
       user: {
         id: usuario.id,
         email: usuario.email,
         nombre: usuario.nombre,
+        rol: usuario.rol,
       },
     };
   }

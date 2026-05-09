@@ -15,6 +15,7 @@ export interface IAuthResponse {
     id: string;
     email: string;
     nombre: string;
+    rol: string;
   };
 }
 
