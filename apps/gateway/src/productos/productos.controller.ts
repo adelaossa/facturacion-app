@@ -12,7 +12,7 @@ export class ProductosController {
   constructor(@Inject('PRODUCTOS_SERVICE') private productosClient: ClientProxy) {}
 
   @Get()
-  @ApiOperation({ summary: 'Listar todos los productos x' })
+  @ApiOperation({ summary: 'Listar todos los productos' })
   findAll() {
     return this.productosClient.send({ cmd: 'find-all-productos' }, {});
   }

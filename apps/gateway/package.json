@@ -1,10 +1,10 @@
 {
   "name": "@facturacion/gateway",
   "version": "1.0.0",
-  "main": "dist/main.js",
+  "main": "dist/apps/gateway/src/main.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/main.js"
+    "start": "node dist/apps/gateway/src/main.js"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.0",
