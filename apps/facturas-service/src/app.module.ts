@@ -17,8 +17,8 @@ import { FacturasModule } from './facturas/facturas.module';
       synchronize: true,
     }),
     ClientsModule.register([
-      { name: 'CLIENTES_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3002 } },
-      { name: 'PRODUCTOS_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3003 } },
+      { name: 'CLIENTES_SERVICE', transport: Transport.RMQ, options: { urls: ['amqp://localhost:5672'], queue: 'clientes_queue', queueOptions: { durable: false } } },
+      { name: 'PRODUCTOS_SERVICE', transport: Transport.RMQ, options: { urls: ['amqp://localhost:5672'], queue: 'productos_queue', queueOptions: { durable: false } } },
     ]),
     FacturasModule,
   ],

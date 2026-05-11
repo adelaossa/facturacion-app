@@ -4,13 +4,14 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.TCP,
+    transport: Transport.RMQ,
     options: {
-      host: '0.0.0.0',
-      port: 3004,
+      urls: ['amqp://localhost:5672'],
+      queue: 'facturas_queue',
+      queueOptions: { durable: false },
     },
   });
   await app.listen();
-  console.log('Facturas Service listening on port 3004');
+  console.log('Facturas Service connected to RabbitMQ');
 }
 bootstrap();

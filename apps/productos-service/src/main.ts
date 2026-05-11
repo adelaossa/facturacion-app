@@ -4,13 +4,14 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.TCP,
+    transport: Transport.RMQ,
     options: {
-      host: '0.0.0.0',
-      port: 3003,
+      urls: ['amqp://localhost:5672'],
+      queue: 'productos_queue',
+      queueOptions: { durable: false },
     },
   });
   await app.listen();
-  console.log('Productos Service listening on port 3003');
+  console.log('Productos Service connected to RabbitMQ');
 }
 bootstrap();

@@ -5,26 +5,28 @@
 ```
 apps/
   gateway/          HTTP API (Express, port 3000)
-  auth-service/     TCP microservice (port 3001)
-  clientes-service/ TCP microservice (port 3002)
-  productos-service/TCP microservice (port 3003)
-  facturas-service/ TCP microservice (port 3004)
+  auth-service/     RabbitMQ microservice
+  clientes-service/ RabbitMQ microservice
+  productos-service/RabbitMQ microservice
+  facturas-service/ RabbitMQ microservice
 libs/
   common/           Shared DTO interfaces + service name constants
 ```
 
-NestJS everywhere. Gateway exposes REST + Swagger; microservices use `Transport.TCP` with `{ cmd: 'verb-noun' }` message patterns.
+NestJS everywhere. Gateway exposes REST + Swagger; microservices communicate via RabbitMQ (`Transport.RMQ`) with `{ cmd: 'verb-noun' }` message patterns.
 
 ## Startup
 
 ```bash
-docker-compose up -d       # PostgreSQL 16
+docker-compose up -d       # PostgreSQL 16 + RabbitMQ 3 (management UI at :15672)
 npm install                # from repo root (workspaces)
 npm run build              # tsc all workspaces
 npm run start:all          # start all 5 services in parallel
 ```
 
 Stop: `npm run stop:all` (pkill by process name).
+
+**Note:** After `docker-compose up -d`, wait ~10 seconds for RabbitMQ to be ready before starting the services. NestJS RMQ transport will retry the connection if RabbitMQ isn't ready yet, but a brief wait avoids startup noise.
 
 ## Build single package
 

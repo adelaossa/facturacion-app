@@ -10,10 +10,10 @@ import { FacturasController } from './facturas/facturas.controller';
   imports: [
     AuthModule,
     ClientsModule.register([
-      { name: 'AUTH_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3001 } },
-      { name: 'CLIENTES_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3002 } },
-      { name: 'PRODUCTOS_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3003 } },
-      { name: 'FACTURAS_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3004 } },
+      { name: 'AUTH_SERVICE', transport: Transport.RMQ, options: { urls: ['amqp://localhost:5672'], queue: 'auth_queue', queueOptions: { durable: false } } },
+      { name: 'CLIENTES_SERVICE', transport: Transport.RMQ, options: { urls: ['amqp://localhost:5672'], queue: 'clientes_queue', queueOptions: { durable: false } } },
+      { name: 'PRODUCTOS_SERVICE', transport: Transport.RMQ, options: { urls: ['amqp://localhost:5672'], queue: 'productos_queue', queueOptions: { durable: false } } },
+      { name: 'FACTURAS_SERVICE', transport: Transport.RMQ, options: { urls: ['amqp://localhost:5672'], queue: 'facturas_queue', queueOptions: { durable: false } } },
     ]),
   ],
   controllers: [AuthController, ClientesController, ProductosController, FacturasController],
