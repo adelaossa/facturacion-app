@@ -14,13 +14,13 @@ export class ProductosController {
   @Get()
   @ApiOperation({ summary: 'Listar todos los productos' })
   findAll() {
-    return this.productosClient.send({ cmd: 'find-all-productos' }, {});
+    return this.productosClient.send('find-all-productos', {});
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Obtener un producto por ID' })
   findOne(@Param('id') id: string) {
-    return this.productosClient.send({ cmd: 'find-one-producto' }, { id });
+    return this.productosClient.send('find-one-producto', { id });
   }
 
   @Post()
@@ -29,7 +29,7 @@ export class ProductosController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Crear un nuevo producto' })
   create(@Body() dto: CreateProductoDto) {
-    return this.productosClient.send({ cmd: 'create-producto' }, dto);
+    return this.productosClient.send('create-producto', dto);
   }
 
   @Put(':id')
@@ -38,7 +38,7 @@ export class ProductosController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Actualizar un producto' })
   update(@Param('id') id: string, @Body() dto: UpdateProductoDto) {
-    return this.productosClient.send({ cmd: 'update-producto' }, { id, data: dto });
+    return this.productosClient.send('update-producto', { id, data: dto });
   }
 
   @Delete(':id')
@@ -47,6 +47,6 @@ export class ProductosController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Eliminar un producto' })
   remove(@Param('id') id: string) {
-    return this.productosClient.send({ cmd: 'delete-producto' }, { id });
+    return this.productosClient.send('delete-producto', { id });
   }
 }

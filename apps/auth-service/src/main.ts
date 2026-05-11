@@ -1,16 +1,23 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { KafkaJsonSerializer } from './kafka-json.serializer';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.TCP,
+    transport: Transport.KAFKA,
     options: {
-      host: '0.0.0.0',
-      port: 3001,
+      client: {
+        clientId: 'auth-service',
+        brokers: ['localhost:9092'],
+      },
+      consumer: {
+        groupId: 'auth-consumer',
+      },
+      serializer: new KafkaJsonSerializer(),
     },
   });
   await app.listen();
-  console.log('Auth Service listening on port 3001');
+  console.log('Auth Service is running with Kafka');
 }
 bootstrap();

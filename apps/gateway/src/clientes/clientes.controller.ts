@@ -16,13 +16,13 @@ export class ClientesController {
   @Get()
   @ApiOperation({ summary: 'Listar todos los clientes' })
   findAll() {
-    return this.clientesClient.send({ cmd: 'find-all-clientes' }, {});
+    return this.clientesClient.send('find-all-clientes', {});
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Obtener un cliente por ID' })
   findOne(@Param('id') id: string) {
-    return this.clientesClient.send({ cmd: 'find-one-cliente' }, { id });
+    return this.clientesClient.send('find-one-cliente', { id });
   }
 
   @Post()
@@ -30,7 +30,7 @@ export class ClientesController {
   @UseGuards(RolesGuard)
   @ApiOperation({ summary: 'Crear un nuevo cliente' })
   create(@Body() dto: CreateClienteDto) {
-    return this.clientesClient.send({ cmd: 'create-cliente' }, dto);
+    return this.clientesClient.send('create-cliente', dto);
   }
 
   @Put(':id')
@@ -38,7 +38,7 @@ export class ClientesController {
   @UseGuards(RolesGuard)
   @ApiOperation({ summary: 'Actualizar un cliente' })
   update(@Param('id') id: string, @Body() dto: UpdateClienteDto) {
-    return this.clientesClient.send({ cmd: 'update-cliente' }, { id, data: dto });
+    return this.clientesClient.send('update-cliente', { id, data: dto });
   }
 
   @Delete(':id')
@@ -46,6 +46,6 @@ export class ClientesController {
   @UseGuards(RolesGuard)
   @ApiOperation({ summary: 'Eliminar un cliente' })
   remove(@Param('id') id: string) {
-    return this.clientesClient.send({ cmd: 'delete-cliente' }, { id });
+    return this.clientesClient.send('delete-cliente', { id });
   }
 }

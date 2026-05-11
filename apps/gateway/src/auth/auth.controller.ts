@@ -14,13 +14,13 @@ export class AuthController {
   @Public()
   @ApiOperation({ summary: 'Iniciar sesión' })
   async login(@Body() dto: LoginDto) {
-    return this.authClient.send({ cmd: 'auth-login' }, dto);
+    return this.authClient.send('auth-login', dto);
   }
 
   @Post('register')
   @Public()
   @ApiOperation({ summary: 'Registrar nuevo usuario' })
   async register(@Body() dto: RegisterDto) {
-    return this.authClient.send({ cmd: 'auth-register' }, dto);
+    return this.authClient.send('auth-register', dto);
   }
 }

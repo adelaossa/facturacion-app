@@ -5,22 +5,23 @@
 ```
 apps/
   gateway/          HTTP API (Express, port 3000)
-  auth-service/     TCP microservice (port 3001)
-  clientes-service/ TCP microservice (port 3002)
-  productos-service/TCP microservice (port 3003)
-  facturas-service/ TCP microservice (port 3004)
+  auth-service/     Kafka microservice
+  clientes-service/ Kafka microservice
+  productos-service/Kafka microservice
+  facturas-service/ Kafka microservice
 libs/
   common/           Shared DTO interfaces + service name constants
 ```
 
-NestJS everywhere. Gateway exposes REST + Swagger; microservices use `Transport.TCP` with `{ cmd: 'verb-noun' }` message patterns.
+NestJS everywhere. Gateway exposes REST + Swagger; microservices use `Transport.KAFKA` with `'verb-noun'` message patterns. Kafka broker runs on `localhost:9092` via Docker (KRaft mode, no Zookeeper).
 
 ## Startup
 
 ```bash
-docker-compose up -d       # PostgreSQL 16
+docker-compose up -d       # PostgreSQL 16 + Kafka (KRaft)
 npm install                # from repo root (workspaces)
 npm run build              # tsc all workspaces
+npm run setup:kafka        # create Kafka topics before starting services
 npm run start:all          # start all 5 services in parallel
 ```
 
@@ -49,7 +50,7 @@ No jest, no eslint, no prettier, no `.github/workflows/`. There are no `*.spec.t
 
 ## Architecture notes
 
-- **Gateway is the single HTTP entrypoint.** It imports `ClientsModule.register()` with 4 named TCP proxies (`AUTH_SERVICE`, `CLIENTES_SERVICE`, `PRODUCTOS_SERVICE`, `FACTURAS_SERVICE`) and delegates all requests via `client.send(pattern, data)`.
+- **Gateway is the single HTTP entrypoint.** It imports `ClientsModule.register()` with 4 named Kafka proxies (`AUTH_SERVICE`, `CLIENTES_SERVICE`, `PRODUCTOS_SERVICE`, `FACTURAS_SERVICE`) and delegates all requests via `client.send(pattern, data)`.
 - **Service name constants** live in `libs/common/src/interfaces/index.ts`. Use them for `@Inject()` or `ClientsModule.register()` — never use raw strings.
 - **Facturas-service calls CLIENTES_SERVICE and PRODUCTOS_SERVICE** during factura creation to validate referenced entities. It uses `.toPromise()` (NestJS v10 Observable API).
 - Controllers sit in subdirectories matching the domain (e.g. `clientes/clientes.controller.ts`), wired via per-domain modules (`clientes.module.ts`). DTOs are in `src/<domain>/dto/`.

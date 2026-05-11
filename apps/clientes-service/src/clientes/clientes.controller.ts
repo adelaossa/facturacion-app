@@ -7,27 +7,27 @@ import { ICreateCliente, IUpdateCliente } from '@facturacion/common';
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
-  @MessagePattern({ cmd: 'find-all-clientes' })
+  @MessagePattern('find-all-clientes')
   findAll() {
     return this.clientesService.findAll();
   }
 
-  @MessagePattern({ cmd: 'find-one-cliente' })
+  @MessagePattern('find-one-cliente')
   findOne(@Payload() data: { id: string }) {
     return this.clientesService.findOne(data.id);
   }
 
-  @MessagePattern({ cmd: 'create-cliente' })
+  @MessagePattern('create-cliente')
   create(@Payload() data: ICreateCliente) {
     return this.clientesService.create(data);
   }
 
-  @MessagePattern({ cmd: 'update-cliente' })
+  @MessagePattern('update-cliente')
   update(@Payload() data: { id: string; data: IUpdateCliente }) {
     return this.clientesService.update(data.id, data.data);
   }
 
-  @MessagePattern({ cmd: 'delete-cliente' })
+  @MessagePattern('delete-cliente')
   remove(@Payload() data: { id: string }) {
     return this.clientesService.remove(data.id);
   }

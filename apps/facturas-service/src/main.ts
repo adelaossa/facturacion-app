@@ -1,16 +1,23 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { KafkaJsonSerializer } from './kafka-json.serializer';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.TCP,
+    transport: Transport.KAFKA,
     options: {
-      host: '0.0.0.0',
-      port: 3004,
+      client: {
+        clientId: 'facturas-service',
+        brokers: ['localhost:9092'],
+      },
+      consumer: {
+        groupId: 'facturas-consumer',
+      },
+      serializer: new KafkaJsonSerializer(),
     },
   });
   await app.listen();
-  console.log('Facturas Service listening on port 3004');
+  console.log('Facturas Service is running with Kafka');
 }
 bootstrap();

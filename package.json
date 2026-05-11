@@ -18,9 +18,13 @@
     "start:clientes": "npm run start -w @facturacion/clientes-service",
     "start:productos": "npm run start -w @facturacion/productos-service",
     "start:facturas": "npm run start -w @facturacion/facturas-service",
-    "start:all": "npm run start:gateway & npm run start:auth & npm run start:clientes & npm run start:productos & npm run start:facturas",
+    "start:all": "export KAFKAJS_NO_PARTITIONER_WARNING=1 && npm run setup:kafka && npm run start:auth & sleep 8 && npm run start:clientes & sleep 8 && npm run start:productos & sleep 8 && npm run start:facturas & sleep 8 && npm run start:gateway",
     "stop:all": "pkill -f 'node apps'",
-    "seed:admin": "node scripts/seed-admin.js"
+    "seed:admin": "node scripts/seed-admin.js",
+    "setup:kafka": "node scripts/setup-kafka.js"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4"
   },
   "devDependencies": {
     "typescript": "^5.3.3"

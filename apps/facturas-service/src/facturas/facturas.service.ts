@@ -30,7 +30,7 @@ export class FacturasService {
 
   async create(data: ICreateFactura): Promise<Factura> {
     try {
-      const cliente = await this.clientesClient.send({ cmd: 'find-one-cliente' }, { id: data.clienteId }).toPromise();
+      const cliente = await this.clientesClient.send('find-one-cliente', { id: data.clienteId }).toPromise();
       if (!cliente) {
         throw new NotFoundException('Cliente no encontrado');
       }
@@ -41,7 +41,7 @@ export class FacturasService {
     let subtotal = 0;
     for (const linea of data.lineas) {
       try {
-        const producto = await this.productosClient.send({ cmd: 'find-one-producto' }, { id: linea.productoId }).toPromise();
+        const producto = await this.productosClient.send('find-one-producto', { id: linea.productoId }).toPromise();
         if (!producto) {
           throw new NotFoundException(`Producto ${linea.productoId} no encontrado`);
         }
