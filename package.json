@@ -19,7 +19,8 @@
     "start:productos": "npm run start -w @facturacion/productos-service",
     "start:facturas": "npm run start -w @facturacion/facturas-service",
     "start:all": "npm run start:gateway & npm run start:auth & npm run start:clientes & npm run start:productos & npm run start:facturas",
-    "stop:all": "pkill -f 'node apps'"
+    "stop:all": "pkill -f 'node apps'",
+    "seed:admin": "node scripts/seed-admin.js"
   },
   "devDependencies": {
     "typescript": "^5.3.3"

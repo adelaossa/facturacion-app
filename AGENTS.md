@@ -59,7 +59,7 @@ No jest, no eslint, no prettier, no `.github/workflows/`. There are no `*.spec.t
 - JWT via `@nestjs/jwt` + `passport-jwt`. Secret (`facturacion-secret-key-2024`) and expiry (`7d`) are hardcoded in `apps/gateway/src/auth/auth.module.ts`.
 - `JwtAuthGuard` applies per-controller. Use `@Public()` decorator (defined in the guard file) to bypass auth on specific routes (e.g. login, register, GET /productos).
 - Passwords hashed with `bcrypt` (10 rounds).
-- **Role-based authorization**: `RolesGuard` + `@Roles('admin')` decorator. New users default to `rol='user'` in the `Usuario` entity. Promote a user to admin by setting `rol='admin'` directly in the DB. `@Roles()` guards POST/PUT/DELETE on `/productos` and `/clientes` — only admin tokens can mutate these resources.
+- **Role-based authorization**: `RolesGuard` + `@Roles('admin')` decorator. New users default to `rol='user'` in the `Usuario` entity. Create an admin account with `npm run seed:admin -- --nombre <name> --email <email> --password <pass>`. `@Roles()` guards POST/PUT/DELETE on `/productos` and `/clientes` — only admin tokens can mutate these resources.
 - The JWT payload carries `{ sub, email, rol }`; `JwtStrategy` extracts all three into `request.user`.
 
 ## Shared library (`@facturacion/common`)
