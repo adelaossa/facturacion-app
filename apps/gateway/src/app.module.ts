@@ -10,10 +10,10 @@ import { FacturasController } from './facturas/facturas.controller';
   imports: [
     AuthModule,
     ClientsModule.register([
-      { name: 'AUTH_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3001 } },
-      { name: 'CLIENTES_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3002 } },
-      { name: 'PRODUCTOS_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3003 } },
-      { name: 'FACTURAS_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3004 } },
+      { name: 'AUTH_SERVICE', transport: Transport.NATS, options: { servers: ['nats://localhost:4222'] } },
+      { name: 'CLIENTES_SERVICE', transport: Transport.NATS, options: { servers: ['nats://localhost:4222'] } },
+      { name: 'PRODUCTOS_SERVICE', transport: Transport.NATS, options: { servers: ['nats://localhost:4222'] } },
+      { name: 'FACTURAS_SERVICE', transport: Transport.NATS, options: { servers: ['nats://localhost:4222'] } },
     ]),
   ],
   controllers: [AuthController, ClientesController, ProductosController, FacturasController],

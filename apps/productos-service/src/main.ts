@@ -4,13 +4,12 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.TCP,
+    transport: Transport.NATS,
     options: {
-      host: '0.0.0.0',
-      port: 3003,
+      servers: ['nats://localhost:4222'],
     },
   });
   await app.listen();
-  console.log('Productos Service listening on port 3003');
+  console.log('Productos Service listening on NATS');
 }
 bootstrap();

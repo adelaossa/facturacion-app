@@ -10,8 +10,8 @@ import { Factura } from './entities/factura.entity';
   imports: [
     TypeOrmModule.forFeature([Factura]),
     ClientsModule.register([
-      { name: 'CLIENTES_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3002 } },
-      { name: 'PRODUCTOS_SERVICE', transport: Transport.TCP, options: { host: 'localhost', port: 3003 } },
+      { name: 'CLIENTES_SERVICE', transport: Transport.NATS, options: { servers: ['nats://localhost:4222'] } },
+      { name: 'PRODUCTOS_SERVICE', transport: Transport.NATS, options: { servers: ['nats://localhost:4222'] } },
     ]),
   ],
   controllers: [FacturasController],
