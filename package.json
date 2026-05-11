@@ -20,6 +20,7 @@
     "start:facturas": "npm run start -w @facturacion/facturas-service",
     "start:all": "npm run start:gateway & npm run start:auth & npm run start:clientes & npm run start:productos & npm run start:facturas",
     "stop:all": "pkill -f 'node apps'",
+    "clean": "rm -rf apps/*/dist libs/*/dist",
     "seed:admin": "node scripts/seed-admin.js"
   },
   "devDependencies": {
